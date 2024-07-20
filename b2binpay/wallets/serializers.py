@@ -10,13 +10,15 @@ class WalletSerializer(serializers.ModelSerializer):
         model = Wallet
         fields = ['id', 'label', 'balance', ]
         read_only_fields = ['balance', ]
+        required_fields = ['label', 'balance', ]
 
 
 class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['id', 'wallet_id', 'txid', 'amount', ]
+        fields = ['id', 'wallet', 'txid', 'amount', ]
+        required_fields = ['txid', 'wallet', 'amount']
 
     def validate(self, data: dict) -> dict:
         wallet = data['wallet']
@@ -31,7 +33,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
         with transaction.atomic():
             wallet.balance += amount
-            wallet.save()
+            wallet.save(update_fields=['balance'])
             wallet_transaction = Transaction.objects.create(**validated_data)
 
         return wallet_transaction

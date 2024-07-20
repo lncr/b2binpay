@@ -18,7 +18,7 @@ class WalletViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['label', 'balance']
     ordering_fields = ['label', 'balance', 'id']
-    ordering = ['-balance']
+    ordering = ['-id']
 
 
 class TransactionViewSet(mixins.ListModelMixin,

@@ -4,7 +4,7 @@ from django.core.validators import MinValueValidator
 
 class Wallet(models.Model):
     label = models.CharField(max_length=255)
-    balance = models.FloatField(default=0.0, validators=[MinValueValidator(0.0)])
+    balance = models.DecimalField(max_digits=50, decimal_places=18, default=0.0, validators=[MinValueValidator(0.0)])
 
     def __str__(self):
         return f'Wallet {self.label}'
